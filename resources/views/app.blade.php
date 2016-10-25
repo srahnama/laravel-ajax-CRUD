@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-	
+	 <meta name="csrf-token" content="{{ csrf_token() }}">
 	<link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">
 	<title></title>
 </head>
@@ -18,6 +18,7 @@
 
 	<script type="text/javascript">
 		// edit ''
+		
 		$(document).on('click', '.edit-modal', function() {
 			/* body... */
 			$('#footer_action_button').text('Update');
@@ -48,11 +49,45 @@
 				},
 				success: function(data){
 					$('.item' + data.id).replaceWith(
-						"<tr class='.item'" + data.id + "><td>" + data.id +"</td><td>"+ data.title + "</td><td>"+data.description+ "</td><td><button type='button' class='edit-modal btn btn-primary' data-id='"+data.id+"' data-title='" + data.title + "' data-description='"+data.description+ "' >									<span class='glyphicon glyphicon-edit'></span>Edit</button><button type='button' class='delete-modal btn btn-danger' data-id='"+data.id+"' data-title='" + data.title + "' data-description='" + data.description + "' ><span class='glyphicon glyphicon-trash'></span>Delete</button>	</td></tr>"
+						"<tr class='.item'" + data.id + "><td>" + data.id +"</td><td>"+ data.title + "</td><td>"+data.description+ "</td><td><button type='button' class='edit-modal btn btn-primary' data-id='"+data.id+"' data-title='" + data.title + "' data-description='"+data.description+ "' >									<span class='glyphicon glyphicon-edit'></span>Edit</button> <button type='button' class='delete-modal btn btn-danger' data-id='"+data.id+"' data-title='" + data.title + "' data-description='" + data.description + "' ><span class='glyphicon glyphicon-trash'></span>Delete</button>	</td></tr>"
 						);
 				}
 			});
 			
+			
+		});
+		///////////////add function
+
+		$('#add').click(function() {
+		
+			
+			$.ajax({
+				url: '/addItem',
+				type: 'post',
+				data: {
+					'_token' : $('input[name=_token]').val(),
+					'title' : $('input[name=title]').val(),
+					'description' : $('input[name=description]').val(),
+
+				},
+				success: function(data){
+					if(data.errors){
+						alert(data.error.title);
+						
+
+					}else {
+						$('.error').remove();
+						$('#table').append(
+						"<tr class='.item'" + data.id + "><td>" + data.id +"</td><td>"+ data.title + "</td><td>"+data.description+ "</td><td><button type='button' class='edit-modal btn btn-primary' data-id='"+data.id+"' data-title='" + data.title + "' data-description='"+data.description+ "' >									<span class='glyphicon glyphicon-edit'></span>Edit</button><button type='button' class='delete-modal btn btn-danger' data-id='"+data.id+"' data-title='" + data.title + "' data-description='" + data.description + "' ><span class='glyphicon glyphicon-trash'></span>Delete</button>	</td></tr>"
+						);
+
+					}
+					
+				}
+			});
+			$('#title').val('');
+			$('#description').val('');
+					
 			
 		});
 

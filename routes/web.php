@@ -18,4 +18,5 @@ Route::get('/', function () {
  	Route::resource('blog', 'BlogController');
      //
  	Route::post('/editItem', 'BlogController@editItem');
+ 	Route::post('/addItem', 'BlogController@addItem');
  });

@@ -80,6 +80,7 @@
 
                 <div class="links">
                     <a href="/blog">Blog</a>
+                    <?php echo date('m/d/Y h:i:s a', time()); ?>
                     
                 </div>
             </div>
